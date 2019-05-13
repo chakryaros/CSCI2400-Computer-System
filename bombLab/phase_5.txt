@@ -1,0 +1,35 @@
+0000000000400f9f <phase_5>:
+  400f9f:	48 83 ec 18          	sub    $0x18,%rsp
+  400fa3:	48 8d 4c 24 08       	lea    0x8(%rsp),%rcx     // 4199635, 0x7fffffffdea8
+  400fa8:	48 8d 54 24 0c       	lea    0xc(%rsp),%rdx
+  400fad:	be e3 25 40 00       	mov    $0x4025e3,%esi       // x/s 0x4025e3 : "%d %d"
+  400fb2:	b8 00 00 00 00       	mov    $0x0,%eax           //move 0x0 to %eax 
+  400fb7:	e8 94 fb ff ff       	callq  400b50 <__isoc99_sscanf@plt>
+  400fbc:	83 f8 01             	cmp    $0x1,%eax            //if the eax(2) is greater than 0x1
+  400fbf:	7f 05                	jg     400fc6 <phase_5+0x27>    //jump to address 40fc6
+  400fc1:	e8 30 04 00 00       	callq  4013f6 <explode_bomb>   //if equal, call explode bomb
+  400fc6:	8b 44 24 0c          	mov    0xc(%rsp),%eax       //move my first input into $eax
+  400fca:	83 e0 0f             	and    $0xf,%eax  
+  400fcd:	89 44 24 0c          	mov    %eax,0xc(%rsp)     //0xc(%rsp) = %eax = 5
+  400fd1:	83 f8 0f             	cmp    $0xf,%eax  //compare eax (5) to 0xf
+  400fd4:	74 30                	je     401006 <phase_5+0x67> //if it equal, call explode_bomb
+  400fd6:	b9 00 00 00 00       	mov    $0x0,%ecx      //
+  400fdb:	ba 00 00 00 00       	mov    $0x0,%edx
+  400fe0:	83 c2 01             	add    $0x1,%edx
+  400fe3:	48 98                	cltq   
+  400fe5:	8b 04 85 e0 23 40 00 	mov    0x4023e0(,%rax,4),%eax   //add  0x4023e0(,%rax,4) to eax (5) 
+  400fec:	01 c1                	add    %eax,%ecx               //add eax to ecx
+  400fee:	83 f8 0f             	cmp    $0xf,%eax //compare eax to 0xf 
+  400ff1:	75 ed                	jne    400fe0 <phase_5+0x41>   //if it not equal to back to loop
+                                                                //to increment the value in register edx
+  400ff3:	c7 44 24 0c 0f 00 00 	movl   $0xf,0xc(%rsp)
+  400ffa:	00 
+  400ffb:	83 fa 0f             	cmp    $0xf,%edx   //compare the edx (15) to edx
+  400ffe:	75 06                	jne    401006 <phase_5+0x67> //if not equal, call explode_bomb
+  401000:	3b 4c 24 08          	cmp    0x8(%rsp),%ecx
+  401004:	74 05                	je     40100b <phase_5+0x6c>
+  401006:	e8 eb 03 00 00       	callq  4013f6 <explode_bomb>
+  40100b:	48 83 c4 18          	add    $0x18,%rsp
+  40100f:	c3                   	retq  
+
+  

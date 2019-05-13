@@ -1,0 +1,121 @@
+0000000000401010 <phase_6>:
+  401010:	41 55                	push   %r13
+  401012:	41 54                	push   %r12
+  401014:	55                   	push   %rbp
+  401015:	53                   	push   %rbx
+  401016:	48 83 ec 58          	sub    $0x58,%rsp                 //rsp = 10
+  40101a:	48 8d 74 24 30       	lea    0x30(%rsp),%rsi
+  40101f:	e8 08 04 00 00       	callq  40142c <read_six_numbers>
+  401024:	4c 8d 64 24 30       	lea    0x30(%rsp),%r12
+  401029:	41 bd 00 00 00 00    	mov    $0x0,%r13d
+  40102f:	4c 89 e5             	mov    %r12,%rbp
+  401032:	41 8b 04 24          	mov    (%r12),%eax                //$eax = 6
+  401036:	83 e8 01             	sub    $0x1,%eax                  //%eax = 6 -1
+  401039:	83 f8 05             	cmp    $0x5,%eax                  //%eax == 0x5
+  40103c:	76 05                	jbe    401043 <phase_6+0x33>
+  40103e:	e8 b3 03 00 00       	callq  4013f6 <explode_bomb>
+  401043:	41 83 c5 01          	add    $0x1,%r13d
+  401047:	41 83 fd 06          	cmp    $0x6,%r13d
+  40104b:	74 3d                	je     40108a <phase_6+0x7a>
+  40104d:	44 89 eb             	mov    %r13d,%ebx
+  401050:	48 63 c3             	movslq %ebx,%rax
+  401053:	8b 44 84 30          	mov    0x30(%rsp,%rax,4),%eax       //eax =7
+  401057:	39 45 00             	cmp    %eax,0x0(%rbp)               //make sure the input do not the same numbers
+  40105a:	75 05                	jne    401061 <phase_6+0x51>
+  40105c:	e8 95 03 00 00       	callq  4013f6 <explode_bomb>
+  401061:	83 c3 01             	add    $0x1,%ebx
+  401064:	83 fb 05             	cmp    $0x5,%ebx                    //loop that executes 6 times
+  401067:	7e e7                	jle    401050 <phase_6+0x40>
+  401069:	49 83 c4 04          	add    $0x4,%r12
+  40106d:	eb c0                	jmp    40102f <phase_6+0x1f>
+  40106f:	48 8b 52 08          	mov    0x8(%rdx),%rdx
+  401073:	83 c0 01             	add    $0x1,%eax
+  401076:	39 c8                	cmp    %ecx,%eax
+  401078:	75 f5                	jne    40106f <phase_6+0x5f>
+  40107a:	48 89 14 74          	mov    %rdx,(%rsp,%rsi,2)
+  40107e:	48 83 c6 04          	add    $0x4,%rsi
+  401082:	48 83 fe 18          	cmp    $0x18,%rsi
+  401086:	75 07                	jne    40108f <phase_6+0x7f>
+  401088:	eb 1a                	jmp    4010a4 <phase_6+0x94>
+  40108a:	be 00 00 00 00       	mov    $0x0,%esi
+  40108f:	8b 4c 34 30          	mov    0x30(%rsp,%rsi,1),%ecx
+  401093:	b8 01 00 00 00       	mov    $0x1,%eax
+  401098:	ba e0 32 60 00       	mov    $0x6032e0,%edx
+  40109d:	83 f9 01             	cmp    $0x1,%ecx
+  4010a0:	7f cd                	jg     40106f <phase_6+0x5f>
+  4010a2:	eb d6                	jmp    40107a <phase_6+0x6a>
+  4010a4:	48 8b 1c 24          	mov    (%rsp),%rbx
+  4010a8:	48 89 e0             	mov    %rsp,%rax
+  4010ab:	48 8d 74 24 28       	lea    0x28(%rsp),%rsi
+  4010b0:	48 89 d9             	mov    %rbx,%rcx
+  4010b3:	48 8b 50 08          	mov    0x8(%rax),%rdx
+  4010b7:	48 89 51 08          	mov    %rdx,0x8(%rcx)
+  4010bb:	48 83 c0 08          	add    $0x8,%rax
+  4010bf:	48 89 d1             	mov    %rdx,%rcx
+  4010c2:	48 39 f0             	cmp    %rsi,%rax
+  4010c5:	75 ec                	jne    4010b3 <phase_6+0xa3>
+  4010c7:	48 c7 42 08 00 00 00 	movq   $0x0,0x8(%rdx)
+  4010ce:	00 
+  4010cf:	bd 05 00 00 00       	mov    $0x5,%ebp
+  4010d4:	48 8b 43 08          	mov    0x8(%rbx),%rax //loop
+  4010d8:	8b 00                	mov    (%rax),%eax
+  4010da:	39 03                	cmp    %eax,(%rbx)// eax 261 to rbx if not equal to to 4010e3
+  4010dc:	7e 05                	jle    4010e3 <phase_6+0xd3>
+  4010de:	e8 13 03 00 00       	callq  4013f6 <explode_bomb>
+  4010e3:	48 8b 5b 08          	mov    0x8(%rbx),%rbx //870 
+  4010e7:	83 ed 01             	sub    $0x1,%ebp
+  4010ea:	75 e8                	jne    4010d4 <phase_6+0xc4> // not equal, go back to loop mov 0x8(%rbx),%rax, decrement by 1
+  4010ec:	48 83 c4 58          	add    $0x58,%rsp
+  4010f0:	5b                   	pop    %rbx
+  4010f1:	5d                   	pop    %rbp
+  4010f2:	41 5c                	pop    %r12
+  4010f4:	41 5d                	pop    %r13
+  4010f6:	c3                   	retq  
+
+
+6. 1 3 4 5 6 2
+Phase 6: call the function<read-six-number>
+
+0x00000000004010d4 <+196>:   mov    0x8(%rbx),%rax
+   0x00000000004010d8 <+200>:   mov    (%rax),%eax
+=> 0x00000000004010da <+202>:   cmp    %eax,(%rbx)
+   0x00000000004010dc <+204>:   jle    0x4010e3 <phase_6+211>
+   0x00000000004010de <+206>:   callq  0x4013f6 <explode_bomb>
+   0x00000000004010e3 <+211>:   mov    0x8(%rbx),%rbx
+****************************
+(gdb) x/3x $rbx
+0x603300 <node3>:       0x00000105      0x00000003      0x00603320
+(gdb) x/3x * ($rbx + 8)
+0x603320 <node5>:       0x00000295      0x00000005      0x006032e0
+(gdb) x/3x * (*($rbx + 8)+8)
+0x6032e0 <node1>:       0x00000055      0x00000001      0x00603310
+(gdb) x/3x * (*(*($rbx + 8)+8)+8)
+0x603310 <node4>:       0x00000168      0x00000004      0x00603330
+(gdb) x/3x * (*(*(*($rbx + 8)+8)+8)+8)
+0x603330 <node6>:       0x00000295      0x00000006      0x006032f0
+(gdb) x/3x * (*(*(*(*($rbx + 8)+8)+8)+8)+8)
+0x6032f0 <node2>:       0x00000366      0x00000002      0x00000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+

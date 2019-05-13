@@ -1,0 +1,128 @@
+double
+applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
+{
+    
+    long long cycStart, cycStop;
+    
+    cycStart = rdtscll();
+    
+    
+    
+    int iw = input -> width; //declare new variabl for input->width
+    int ih = input ->height; //declare new variabl for input->height
+    output -> width = input -> width;
+    output -> height = input -> height;
+    //output -> width = iw;
+    //output -> height = ih;
+    
+    
+    int filter_size = filter -> getSize();
+    
+    for(int plane = 0; plane < 3; plane++){
+        for(int row = 1; row < ih +1; row++) {
+            for(int col = 1; col < iw + 1; col++) {
+                
+                
+                int sum = 0;
+                output -> color[plane][row][col] = 0;
+                sum = output -> color[plane][row][col];
+                for (int i = 0; i <filter_size ; i++) //filter -> getSize()
+                {
+                    for (int j = 0; j < filter_size; j++)
+                    {
+            
+                       sum += (input -> color[plane][row + i - 1][col + j - 1]
+                           * filter -> get(i, j) );
+                    }
+                }
+                  sum = sum/filter -> getDivisor();
+                
+                if ( output -> color[plane][row][col]  < 0 ) {
+                    output -> color[plane][row][col] = 0;
+                }
+                
+                
+                if ( output -> color[plane][row][col]  > 255 ) {
+                    output -> color[plane][row][col] = 255;
+                }
+            }
+        }
+    }
+    
+    cycStop = rdtscll();
+    double diff = cycStop - cycStart;
+    double diffPerPixel = diff / (output -> width * output -> height);
+    fprintf(stderr, "Took %f cycles to process, or %f cycles per pixel\n",
+            diff, diff / (output -> width * output -> height));
+    
+    return diffPerPixel;
+
+
+
+
+
+
+
+
+
+
+    double
+applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
+{
+    
+    long long cycStart, cycStop;
+    
+    cycStart = rdtscll();
+    
+    
+    
+    int iw = input -> width; //declare new variabl for input->width
+    int ih = input ->height; //declare new variabl for input->height
+    output -> width = input -> width;
+    output -> height = input -> height;
+    //output -> width = iw;
+    //output -> height = ih;
+    
+    
+    int filter_size = filter -> getSize();
+    
+    for(int plane = 0; plane < 3; plane++){
+        for(int row = 1; row < ih +1; row++) {
+            for(int col = 1; col < iw + 1; col++) {
+                
+                
+                int sum = 0;
+                output -> color[plane][row][col] = 0;
+                sum = output -> color[plane][row][col];
+                for (int i = 0; i <filter_size ; i++) //filter -> getSize()
+                {
+                    for (int j = 0; j < filter_size; j++)
+                    {
+            
+                       sum += (input -> color[plane][row + i - 1][col + j - 1]
+                           * filter -> get(i, j) );
+                    }
+                }
+                  sum = sum/filter -> getDivisor();
+                
+                if ( output -> color[plane][row][col]  < 0 ) {
+                    output -> color[plane][row][col] = 0;
+                }
+                
+                
+                if ( output -> color[plane][row][col]  > 255 ) {
+                    output -> color[plane][row][col] = 255;
+                }
+            }
+        }
+    }
+    
+    cycStop = rdtscll();
+    double diff = cycStop - cycStart;
+    double diffPerPixel = diff / (output -> width * output -> height);
+    fprintf(stderr, "Took %f cycles to process, or %f cycles per pixel\n",
+            diff, diff / (output -> width * output -> height));
+    
+    return diffPerPixel;
+}
+}

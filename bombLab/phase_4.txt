@@ -1,0 +1,38 @@
+0000000000400f4e <phase_4>:
+  400f4e:	48 83 ec 18          	sub    $0x18,%rsp         //decrement from the stack
+  400f52:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx   //load effective address stack pointer 13 to rcx
+  400f57:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx     //load stack pointer 8 to rdx
+  400f5c:	be e3 25 40 00       	mov    $0x4025e3,%esi     //add 0x40253f to esi , x/s 0x40253f to let me know 
+                                                          //that my input it two integer
+  400f61:	b8 00 00 00 00       	mov    $0x0,%eax        //set eax to zero
+  400f66:	e8 e5 fb ff ff       	callq  400b50 <__isoc99_sscanf@plt>
+  400f6b:	83 f8 02             	cmp    $0x2,%eax        //compare sscal value to 0x2
+  400f6e:	75 0c                	jne    400f7c <phase_4+0x2e> //if not equal call explode_bomb
+  400f70:	8b 44 24 0c          	mov    0xc(%rsp),%eax   // get value from stack pointer(2) to eax
+  400f74:	83 e8 02             	sub    $0x2,%eax        //substract 0x2 from eax
+  400f77:	83 f8 02             	cmp    $0x2,%eax        //compare 0x2 to eax (0)
+  400f7a:	76 05                	jbe    400f81 <phase_4+0x33>  //if the below or equal call 400f81
+  400f7c:	e8 75 04 00 00       	callq  4013f6 <explode_bomb> //if it above the 0x2, 
+                                                            //it call explode_bomb
+  400f81:	8b 74 24 0c          	mov    0xc(%rsp),%esi   //move 0xc(%rsp) to esi
+  400f85:	bf 09 00 00 00       	mov    $0x9,%edi        //add 0x9 to edi
+  400f8a:	e8 84 ff ff ff       	callq  400f13 <func4>   //call function 4 to call calculate edi
+  400f8f:	3b 44 24 08          	cmp    0x8(%rsp),%eax   //compare function 4 output to my first value
+  400f93:	74 05                	je     400f9a <phase_4+0x4c>
+  400f95:	e8 5c 04 00 00       	callq  4013f6 <explode_bomb>
+  400f9a:	48 83 c4 18          	add    $0x18,%rsp
+  400f9e:	c3                   	retq   
+
+ 4. 176 2 
+
+ Ok, before we do anything else, 
+ let’s recognize that this function is calling itself, which makes it recursive.
+  All recursive functions have a “base case”, which terminates the loop, 
+  and then a series of instructions to follow in order to continue the loop if the base case is not met.
+
+  int test(int n) {  
+  if (n<2)
+    return n;
+  else
+    return test(n-1) + test(n-2);
+}

@@ -1,0 +1,27 @@
+0000000000400e49 <phase_2>:
+  400e49:	55                   	push   %rbp                     //push %rbp to stack        //by decrement stack point by 8
+                                                                // store %rbp on stack
+  400e4a:	53                   	push   %rbx                     //push %rbx to stack        //by decrement stack point by 8
+                                                                // store %rbx on stack
+  400e4b:	48 83 ec 28          	sub    $0x28,%rsp
+  400e4f:	48 89 e6             	mov    %rsp,%rsi                  //read %rsi -40 from the stack
+  400e52:	e8 d5 05 00 00       	callq  40142c <read_six_numbers>  //call the read six function
+  400e57:	83 3c 24 01          	cmpl   $0x1,(%rsp)                //compare my first number with register stack
+  400e5b:	74 05                	je     400e62 <phase_2+0x19>      //if it equal, jump to the address 400e62
+  400e5d:	e8 94 05 00 00       	callq  4013f6 <explode_bomb>      //if not equal, call the expode_bomb
+  400e62:	48 89 e3             	mov    %rsp,%rbx                  //read %rbx from stack
+  400ep%rbp
+  400e6a:	8b 03                	mov    (%rbx),%eax     // loop start add pointer of address rbx to eax
+  400e6c:	01 c0                	add    %eax,%eax               //increment the eax
+  400e6e:	39 43 04             	cmp    %eax,0x4(%rbx)        //compare the eax and pointer of rbx and ox4 (that's my second number)
+  400e71:	74 05                	je     400e78 <phase_2+0x2f>//if it equal, jump to add 400e78
+  400e73:	e8 7e 05 00 00       	callq  4013f6 <explode_bomb>    //if not eqaul, call the explode_bomb
+  400e78:	48 83 c3 04          	add    $0x4,%rbx              //then add register rbx by 0x4 
+  400e7c:	48 39 eb             	cmp    %rbp,%rbx              //there is loop to compare two register
+  400e7f:	75 e9                	jne    400e6a <phase_2+0x21>  //if not equal , it go back to loop
+  400e81:	48 83 c4 28          	add    $0x28,%rsp             //increment the stack pointer
+  400e85:	5b                   	pop    %rbx                   //pop out the rbx
+  400e86:	5d                   	pop    %rbp                   //pop out the rbp
+  400e87:	c3                   	retq   
+
+ 2. 1 2 4 8 16 32 

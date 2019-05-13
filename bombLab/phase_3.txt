@@ -1,0 +1,41 @@
+0000000000400e88 <phase_3>:
+  400e88:	48 83 ec 18          	sub    $0x18,%rsp                 //decrement 0x18 from stack pointer
+  400e8c:	48 8d 4c 24 08       	lea    0x8(%rsp),%rcx              //load effective address from stack pointer to rcx register   
+  400e91:	48 8d 54 24 0c       	lea    0xc(%rsp),%rdx             //load efective address from stack point to rdx
+  400e96:	be e3 25 40 00       	mov    $0x4025e3,%esi               --> x/s 0x4025e3 "%d %d" move to esi = 2
+  400e9b:	b8 00 00 00 00       	mov    $0x0,%eax                   //eax=2   
+  400ea0:	e8 ab fc ff ff       	callq  400b50 <__isoc99_sscanf@plt>  //call sscanf
+  400ea5:	83 f8 01             	cmp    $0x1,%eax                //compare my input to 0x1 if the greater jump to 400eaf
+  400ea8:	7f 05                	jg     400eaf <phase_3+0x27>
+  400eaa:	e8 47 05 00 00       	callq  4013f6 <explode_bomb> //
+  400eaf:	83 7c 24 0c 07       	cmpl   $0x7,0xc(%rsp)           //compare my first number (6) in stack pointer to 0x7
+  400eb4:	77 3c                	ja     400ef2 <phase_3+0x6a>    //if it about it will call explode_bomb, it it less than go to address 400eb6n
+  400eb6:	8b 44 24 0c          	mov    0xc(%rsp),%eax           //move my first number to eax
+  400eba:	ff 24 c5 a0 23 40 00 	jmpq   *0x4023a0(,%rax,8)       //indrect jump to address 0x4023a0 + rax*8
+  400ec1:	b8 3e 00 00 00       	mov    $0x3e,%eax               //move 393 to register eax
+  400ec6:	eb 3b                	jmp    400f03 <phase_3+0x7b>    //repeats the statements
+  400ec8:	b8 5c 03 00 00       	mov    $0x35c,%eax
+  400ecd:	eb 34                	jmp    400f03 <phase_3+0x7b>
+  400ecf:	b8 a7 01 00 00       	mov    $0x1a7,%eax
+  400ed4:	eb 2d                	jmp    400f03 <phase_3+0x7b>
+  400ed6:	b8 75 01 00 00       	mov    $0x175,%eax
+  400edb:	eb 26                	jmp    400f03 <phase_3+0x7b>
+  400edd:	b8 50 00 00 00       	mov    $0x50,%eax
+  400ee2:	eb 1f                	jmp    400f03 <phase_3+0x7b>
+  400ee4:	b8 ab 03 00 00       	mov    $0x3ab,%eax
+  400ee9:	eb 18                	jmp    400f03 <phase_3+0x7b>
+  400eeb:	b8 ca 00 00 00       	mov    $0xca,%eax
+  400ef0:	eb 11                	jmp    400f03 <phase_3+0x7b>
+  400ef2:	e8 ff 04 00 00       	callq  4013f6 <explode_bomb>
+  400ef7:	b8 00 00 00 00       	mov    $0x0,%eax
+  400efc:	eb 05                	jmp    400f03 <phase_3+0x7b>
+  400efe:	b8 81 02 00 00       	mov    $0x281,%eax
+  400f03:	3b 44 24 08          	cmp    0x8(%rsp),%eax       //compare my second number with 0x8($rsp) if it's equal , it jump to 400f0e
+  400f07:	74 05                	je     400f0e <phase_3+0x86>    //if it equal jump to 400f09
+  400f09:	e8 e8 04 00 00       	callq  4013f6 <explode_bomb>
+  400f0e:	48 83 c4 18          	add    $0x18,%rsp             //increment to stack to pop out
+  400f12:	c3                   	retq                  
+
+
+
+  3. 6 939
